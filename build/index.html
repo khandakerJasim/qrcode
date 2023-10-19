@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Generate the QR</title>
+  </head>
+  <body>
+    <div class="h-full w-full bg-gradient-to-b from-white to-gray-200 ">
+      <div class=" justify-center p-10">
+        <h1 class=" text-gray-800 text-2xl font-semibold m-auto text-center ">
+          Generate the QR code
+        </h1>
+        <div class="justify-center mt-7 m-auto grid ">
+          <input
+            id="qrtext"
+            class=" qrtext h-12 md:w-[400px] w-[300px] bg-gray-300 text-gray-900 rounded-md p-2 "
+            type="text"
+            placeholder="Enter your text or url"
+          />
+          <div class="pt-3 flex justify-between">
+            <label class="text-xl font-semibold" for="">select:</label>
+            <select id="Select" class="  mt-2">
+              <option value="100">100 X 100</option>
+              <option value="200">200 X 100</option>
+              <option value="300">300 X 100</option>
+              <option value="400">400 X 100</option>
+              <option value="500">500 X 100</option>
+              <option value="600">600 X 100</option>
+              <option value="700">700 X 100</option>
+              <option value="800">800 X 100</option>
+              <option value="900">900 X 100</option>
+            </select>
+          </div>
+          <div
+            id="qrshowdiv"
+            class="Qr-body flex place-items-center justify-center my-6 "
+          ></div>
+
+          <div class="flex justify-between mt-4">
+            <button
+              id="qrbtn"
+              class=" qrbtn font-bold bg-red-500 text-white rounded-md p-2"
+            >
+              Generate
+            </button>
+            <a
+              id="downloadbtn"
+              href=""
+              download="QR_Code.png"
+              class=" downloadbtn font-bold bg-blue-700 text-white rounded-md p-2"
+            >
+              DownloadQR
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const qrtext = document.getElementById("qrtext");
+      const qrselect = document.getElementById("Select");
+      const qrbtn = document.getElementById("qrbtn");
+      const downloadbtn = document.getElementById("downloadbtn");
+      const qrcontainer = document.getElementById("qrshowdiv");
+      let size = qrselect.value;
+
+      qrbtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        isEmpty();
+      });
+
+      qrselect.addEventListener("change", (e) => {
+        size = e.target.value;
+        isEmpty();
+      });
+      const isEmpty = () => {
+        // if (qrtext.value.length > 0) {
+        //   generatefunc();
+        // } else {
+        //   alert("please enter your text or url");
+        // }
+
+        qrtext.value.length > 0
+          ? generatefunc()
+          : alert("please enter your text or email");
+      };
+
+      const generatefunc = () => {
+        qrcontainer.innerHTML = " ";
+        new QRCode(qrcontainer, {
+          text: qrtext.value,
+          height: size,
+          width: size,
+          colorLight: "#fff",
+          colorDark: "#000",
+        });
+      };
+
+      downloadbtn.addEventListener("click", (e) => {
+        let img = document.querySelector(".qrbody img");
+
+        if (img !== null) {
+          const imgattr = img.getAttribute("src");
+          downloadbtn.setAttribute("href", imgattr);
+        } else {
+          downloadbtn.setAttribute(
+            "href",
+            `${document.querySelector("canvas").toDataURL()}`
+          );
+        }
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </body>
+</html>

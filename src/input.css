@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.qrshowdiv img {
+  border: 5px solid red;
+  padding: 10px;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+}
